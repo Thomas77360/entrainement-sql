@@ -204,15 +204,45 @@ ORDER BY [DateFacturation] DESC;
 
 
 -- Se positionner sur la base de donnees [MonEntreprise]
+USE [MonEntreprise];
+GO
 
 
 -- Afficher les ventes avec le nom du client
+SELECT
+    v.[VenteID],
+    v.[ClientID],
+    c.[ClientNom],
+    v.[VentesEuro]
+FROM [dbo].[Vente] AS v
+LEFT JOIN [dbo].[Client] AS c
+    ON v.[ClientID] = c.[ClientID];
 
 
 -- Afficher les ventes avec le nom du produit
+SELECT
+    v.[VenteID],
+    v.[ProduitID],
+    p.[Produit] AS [ProduitNom],
+    v.[QuantitesVendues],
+    v.[VentesEuro]
+FROM [dbo].[Vente] AS v
+LEFT JOIN [dbo].[CatalogueProduit] AS p
+    ON v.[ProduitID] = p.[ProduitID]
+ORDER BY v.[ProduitID] DESC;
 
 
 -- Afficher les ventes avec le nom du point de vente
+SELECT
+    v.[VenteID],
+    v.[PointDeVenteID],
+    pt.[Ville],
+    pt.[Pays],
+    v.[VentesEuro]
+FROM [dbo].[Vente] AS v
+LEFT JOIN [dbo].[PointDeVente] AS pt
+    ON v.[PointDeVenteID] = pt.[PointDeVenteID]
+ORDER BY v.[PointDeVenteID] DESC;
 
 
 -- Afficher VenteID, ClientNom, ProduitNom, VentesEuro
