@@ -1,0 +1,4 @@
+cd /Users/thomasb/Documents/Python/FormulairePy/entrainement-sql
+git add "Exercice SQL - Entrainement 2.sql"
+git commit -m "Fusion des exercices SQL"
+git push
