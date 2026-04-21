@@ -1,4 +1,17 @@
 cd /Users/thomasb/Documents/Python/entrainement-sql
-git add "Exercice SQL - Entrainement 2.sql"
-git commit -m "Fusion des exercices SQL"
+git status
+git add .
+git commit -m "Mon message"
 git push
+
+
+#cd /Users/thomasb/Documents/Python/entrainement-sql
+#colima start
+#docker start sqlserver
+
+#Server: 127.0.0.1,1433
+#Authentication Type: SQL Login
+#User name: sa
+#Password: Password123!
+#Database: master
+#Trust server certificate: true
