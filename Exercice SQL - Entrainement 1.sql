@@ -4,12 +4,12 @@ Dataseito - Les bases de SQL pour d�butant - Exercice
 
 
 
--- -------------------------------------------------------------------------- LES COMMANDES DE BASE --------------------------------------------------------------------------
+---------------------------------------------------------------------------- LES COMMANDES DE BASE ------------------------------------------------------------------------
 
 
 
 -- S�lectionner toutes les donn�es pr�sentes dans la table Vente
-USE MonEntreprise;
+USE MonEntreprise
 GO
 SELECT *
 FROM [dbo].[Vente];
@@ -59,23 +59,23 @@ SELECT [VenteID], [ProduitID], [ClientID], [VentesEuro]
 -- S�lectionner toutes les ventes ID qui commencent par 10
 SELECT [VenteID], [ProduitID], [ClientID], [VentesEuro]
     FROM [dbo].[Vente]
-    WHERE CAST([VenteID] AS varchar(50)) LIKE '10%';
+    WHERE [VenteID] LIKE '10%';
 
 -- S�lectionner toutes les ventes qui finissent par 10
 SELECT [VenteID], [ProduitID], [ClientID], [VentesEuro]
     FROM [dbo].[Vente]
-    WHERE CAST([VenteID] AS varchar(50)) LIKE '%10';
+    WHERE [VenteID] LIKE '%10';
 
 -- S�lectionner toutes les ventes qui contiennent 10
 SELECT [VenteID], [ProduitID], [ClientID], [VentesEuro]
     FROM [dbo].[Vente]
-    WHERE CAST([VenteID] AS varchar(50)) LIKE '%10%';
+    WHERE [VenteID] LIKE '%10%';
 
 -- S�lectionner toutes les ventes du produit PROD_1 relatives au CLIENT_1 tri�es par le montant des ventes de mani�re d�croissante
 SELECT [VenteID], [ProduitID], [ClientID], [VentesEuro]
     FROM [dbo].[Vente]
     WHERE [ProduitID] = 'PROD_1' AND [ClientID] = 'CLIENT_1'
-    ORDER BY [VentesEuro] DESC;
+    ORDER BY [ProduitID] DESC;
 
 -- S�lectionner la liste des clients uniques
 SELECT DISTINCT [ClientID]
@@ -84,7 +84,7 @@ SELECT DISTINCT [ClientID]
 
 
 
--- -------------------------------------------------------------------------- LES AGRÉGATIONS --------------------------------------------------------------------------
+---------------------------------------------------------------------------- LES AGR�GATIONS ------------------------------------------------------------------------
 
 
 
@@ -105,27 +105,27 @@ SELECT [ClientID],[ProduitID], SUM([VentesEuro]) as TotalCA
     ORDER BY TotalCA DESC; 
 
 -- Calculer le montant moyen des ventes pour chaque client
-SELECT [ClientID], AVG([VentesEuro]) as TotalCA
+SELECT [ClientID],[ProduitID], AVG([VentesEuro]) as TotalCA
     FROM [dbo].[Vente]
-    GROUP BY [ClientID]
+    GROUP BY [ClientID],[ProduitID]
     ORDER BY TotalCA DESC; 
 
 -- Calculer le nombre de ventes pour chaque client
-SELECT [ClientID], COUNT(*) as TotalCA
+SELECT [ClientID],[ProduitID], COUNT([VentesEuro]) as TotalCA
     FROM [dbo].[Vente]
-    GROUP BY [ClientID]
+    GROUP BY [ClientID],[ProduitID]
     ORDER BY TotalCA DESC; 
 
 -- S�lectionner la vente la plus �lev�e pour chaque client 
-SELECT [ClientID], MAX([VentesEuro]) as TotalCA
+SELECT [ClientID],[ProduitID], MAX([VentesEuro]) as TotalCA
     FROM [dbo].[Vente]
-    GROUP BY [ClientID]
+    GROUP BY [ClientID],[ProduitID]
     ORDER BY TotalCA DESC; 
 
 -- S�lectionner la vente la plus faible pour chaque client 
-SELECT [ClientID], MIN([VentesEuro]) as TotalCA
+SELECT [ClientID],[ProduitID], MIN([VentesEuro]) as TotalCA
     FROM [dbo].[Vente]
-    GROUP BY [ClientID]
+    GROUP BY [ClientID],[ProduitID]
     ORDER BY TotalCA DESC; 
 
 -- Calculer le total des ventes par client pour les clients ayant un chiffre d'affaire sup�rieur � 1 000 000 �
@@ -137,22 +137,22 @@ SELECT [ClientID], SUM([VentesEuro]) as TotalCA
 
 
 
--- -------------------------------------------------------------------------- LES JOINTURES --------------------------------------------------------------------------
+---------------------------------------------------------------------------- LES JOINTURES ------------------------------------------------------------------------
 
 
 
 -- Se positionner sur la base de donn�es [Jointure]
-USE Jointure;
+USE Jointure
 GO
 
 SELECT *
 FROM [dbo].[TableA];
 
 SELECT *
-FROM [dbo].[TableB];
+FROM [dbo].[TableB]
 
 SELECT * 
-FROM [dbo].[TableC];
+FROM [dbo].[TableC]
 
 SELECT *
 FROM [dbo].[TableD];
@@ -175,7 +175,7 @@ INNER JOIN [dbo].[TableB] ON [dbo].[TableA].TableA_ID = [dbo].[TableB].TableB_ID
 -- Faire une jointure de type OUTER JOIN
 SELECT [TableA_ID],[TableB_ID]
 FROM [dbo].[TableA]
-FULL OUTER JOIN [dbo].[TableB] ON [dbo].[TableA].TableA_ID = [dbo].[TableB].TableB_ID;
+full  OUTER JOIN [dbo].[TableB] ON [dbo].[TableA].TableA_ID = [dbo].[TableB].TableB_ID;
 
 -- Faire une jointure de type CROSS JOIN
 SELECT [TableA_ID],[TableB_ID]
@@ -183,21 +183,21 @@ FROM [dbo].[TableA]
 CROSS JOIN [dbo].[TableB];
 
 -- Se positionner sur la base de donn�es [MonEntreprise]
-USE [MonEntreprise];
+USE [MonEntreprise]
 GO
 SELECT *
 FROM [dbo].[Vente];
 
 -- R�cup�rer les noms des clients dans la table Client avec le montant des ventes li�es
-SELECT [dbo].[Client].[ClientNom], [dbo].[Vente].[ClientID], [dbo].[Vente].[VentesEuro]
+SELECT [dbo].[Client].[ClientID], [dbo].[Vente].[ClientID], [dbo].[Vente].[VentesEuro]
 FROM [dbo].[Client]
-LEFT JOIN [dbo].[Vente] ON [dbo].[Client].ClientID = [dbo].[Vente].[ClientID];
+LEFT JOIN [dbo].[Vente] ON [dbo].[Client].ClientID = [dbo].[Vente].[ClientID]
 
 -- Se positionner sur la base de donn�es [Jointure] � l'aide du langage SQL
-USE [Jointure];
+USE [Jointure]
 GO
 SELECT *
-FROM [dbo].[TableA];
+FROM [dbo].[TableA]
 
 
 -- Concat�ner les enregistrements des tables "TableC" et "TableD" et suppression des doublons avec UNION 
@@ -205,14 +205,14 @@ SELECT ID, Prenom
 FROM [dbo].[TableC]
 UNION
 SELECT ID, Prenom
-FROM [dbo].[TableD];
+FROM [dbo].[TableD]
 
 -- Concat�ner les enregistrements des tables "TableC" et "TableD" avec UNION ALL
 SELECT ID, Prenom
 FROM [dbo].[TableC]
 UNION ALL
 SELECT ID, Prenom
-FROM [dbo].[TableD];
+FROM [dbo].[TableD]
 
 /*
  Bravo, vous �tes arriv� au bout :)
