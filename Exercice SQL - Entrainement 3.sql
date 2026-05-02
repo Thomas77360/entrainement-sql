@@ -133,7 +133,7 @@ WHERE v.VenteID IS NULL;
 -- Afficher le nombre de ventes par client, meme les clients sans vente
 -- Colonnes attendues : ClientID, ClientNom, nombre_ventes
 SELECT 
-    v.ClientID,
+    c.ClientID,
     c.ClientNom,
     COUNT(v.VenteID) AS nombre_ventes
 FROM dbo.Client as c
@@ -146,7 +146,21 @@ ORDER BY nombre_ventes DESC;
 
 -- Afficher le nombre de ventes par produit, meme les produits sans vente
 -- Colonnes attendues : ProduitID, Produit, nombre_ventes
+USE [MonEntreprise]
+GO
 
+SELECT 
+    c.ProduitID,
+    c.Produit,
+    count(v.VenteID) AS nombre_ventes
+FROM [dbo].[CatalogueProduit] as c
+LEFT JOIN [dbo].[Vente] as v
+    ON c.ProduitID = v.ProduitID
+GROUP BY 
+    c.ProduitID,
+    c.Produit
+ORDER BY 
+    nombre_ventes DESC;
 
 -- Afficher le chiffre d'affaires total par pays client
 -- Colonnes attendues : Pays, chiffre_affaires
